@@ -1,0 +1,18 @@
+﻿<ul class="navbar-nav ml-auto ">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <li class="nav-item">
+            <form class="form-inline" method="post" asp-controller="Account" asp-action="logout">
+                <button type="submit" class="nav-link text-dark btn btn-link">
+                    <span class="font-weight-bold">Logout</span> @User.Identity.Name
+                </button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item font-weight-bold">
+            <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
+        </li>
+    }
+</ul>

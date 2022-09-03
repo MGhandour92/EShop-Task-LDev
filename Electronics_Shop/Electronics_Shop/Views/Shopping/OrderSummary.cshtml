@@ -1,0 +1,110 @@
+﻿@model OrderViewModel
+
+@{
+    ViewData["Title"] = "Order Summary";
+}
+
+<link href="~/css/trackingorder.css" rel="stylesheet" />
+
+<h1>You Have Placed an Order Successfully with Number (@Model.OrderHeader.Id)</h1>
+<h2>Save this link for tracking your Order</h2>
+
+<!-- Tracking View Sample from: https://codepen.io/nandhukumar/pen/pMwdxY -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-10 hh-grayBox pt45 pb20">
+            <div class="row justify-content-between">
+                <div class="order-tracking completed">
+                    <span class="is-complete"></span>
+                    <p>Ordered<br><span>@DateTime.Today.ToString("dd-MMM-yy")</span></p>
+                </div>
+                <div class="order-tracking">
+                    <span class="is-complete"></span>
+                    <p>Shipped<br><span>@DateTime.Today.AddDays(2).ToString("dd-MMM-yy")</span></p>
+                </div>
+                <div class="order-tracking">
+                    <span class="is-complete"></span>
+                    <p>Delivered<br><span>@DateTime.Today.AddDays(3).ToString("dd-MMM-yy")</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<hr />
+<br />
+
+<h3>Order Details</h3>
+<div class="row">
+    <div class="col-md-12">
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.OrderHeader.ContactPhone)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.OrderHeader.ContactPhone)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.OrderHeader.DeliverToAddress)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.OrderHeader.DeliverToAddress)
+            </dd>
+        </dl>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <table class="table" cellpadding="2" cellspacing="2" border="1">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Unit Price
+                    </th>
+                    <th>
+                        Disount To Apply
+                    </th>
+                    <th>
+                        Category
+                    </th>
+                    <th>
+                        Quantity
+                    </th>
+                    <th>
+                        Sub Total
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderLines)
+                {
+                    <tr>
+                        <td>@item.Product.Name</td>
+                        <td>@item.Product.Description</td>
+                        <td>@item.Product.UnitPrice</td>
+                        <td>@item.Product.DisountToApply</td>
+                        <td>@item.Quantity</td>
+                        <td>@(item.Product.UnitPrice * item.Quantity)</td>
+                        <td><a asp-controller="cart" asp-action="remove" asp-route-id="@item.Product.Id">Remove</a></td>
+                    </tr>
+                }
+                <tr>
+                    <td align="right" colspan="6">Sum</td>
+                    <td>
+                        @ViewBag.total
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

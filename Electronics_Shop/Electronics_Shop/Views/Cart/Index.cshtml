@@ -1,0 +1,86 @@
+﻿@model OrderViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+<form asp-controller="Shopping" asp-action="PlaceOrder">
+
+    <h1>Cart Page</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table" cellpadding="2" cellspacing="2" border="1">
+                <thead>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Unit Price
+                        </th>
+                        <th>
+                            Disount To Apply
+                        </th>
+                        <th>
+                            Category
+                        </th>
+                        <th>
+                            Quantity
+                        </th>
+                        <th>
+                            Sub Total
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderLines)
+                    {
+                        <tr>
+                            <td>@item.Product.Name</td>
+                            <td>@item.Product.Description</td>
+                            <td>@item.Product.UnitPrice</td>
+                            <td>@item.Product.DisountToApply</td>
+                            <td>@item.Quantity</td>
+                            <td>@(item.Product.UnitPrice * item.Quantity)</td>
+                            <td><a asp-controller="cart" asp-action="remove" asp-route-id="@item.Product.Id">Remove</a></td>
+                        </tr>
+                    }
+                    <tr>
+                        <td align="right" colspan="6">Sum</td>
+                        <td>
+                            @ViewBag.total
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <a class="btn-warning" asp-controller="Shopping" asp-action="index">Continue Shopping</a>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="OrderHeader.ContactPhone" class="control-label"></label>
+                <input asp-for="OrderHeader.ContactPhone" class="form-control" />
+                <span asp-validation-for="OrderHeader.ContactPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderHeader.DeliverToAddress" class="control-label"></label>
+                <textarea asp-for="OrderHeader.DeliverToAddress" class="form-control"></textarea>
+                <span asp-validation-for="OrderHeader.DeliverToAddress" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <input type="submit" value="Place Order" class="btn btn-success" />
+        </div>
+    </div>
+</form>

@@ -1,0 +1,88 @@
+﻿@model X.PagedList.IPagedList<Electronics_Shop.Models.Product>
+@using X.PagedList.Mvc.Core;
+
+@*<link href="~/css/pagedlist.css" rel="stylesheet" />*@
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form asp-action="Index">
+    <div class="row">
+        <div class="col-md-9">
+            @*            <select id="categoryId" name="Categories" asp-items="(IEnumerable<SelectListItem>)ViewBag.CategoryList">
+            </select>*@
+            @Html.DropDownList("categoryId", (IEnumerable<SelectListItem>)ViewBag.CategoryList, new { @class="form-control" })
+        </div>
+        <div class="col-md-3">
+            <input type="submit" value="Filter" class="btn btn-info" />
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        UnitPrice
+                    </th>
+                    <th>
+                        Disount To Apply
+                    </th>
+                    <th>
+                        Category
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UnitPrice)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DisountToApply)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Category.Name)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<br />
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
+    new X.PagedList.Web.Common.PagedListRenderOptions {
+        LiElementClasses = new string[] { "page-item" },
+        PageClasses = new string[] { "page-link" }
+})
