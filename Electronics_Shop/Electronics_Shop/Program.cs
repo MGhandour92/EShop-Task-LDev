@@ -6,14 +6,17 @@ using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// configure the DB connection and inject it
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+//inject the configuration settings for later mirroring the data from app.settings
 builder.Services.AddSingleton(builder.Configuration.GetSection("ConfigrationSettings").Get<ConfigrationSettings>());
 
 builder.Services.AddControllersWithViews();
 
+//enable cookies for handling the login for demo purpose
+//also sessions will be used for shopping cart
 builder.Services.AddAuthentication("Cookies").AddCookie();
 builder.Services.AddSession();
 

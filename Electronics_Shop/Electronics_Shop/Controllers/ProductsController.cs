@@ -9,9 +9,12 @@ using Electronics_Shop.Data;
 using Electronics_Shop.Models;
 using System.Drawing.Printing;
 using X.PagedList;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace Electronics_Shop.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;

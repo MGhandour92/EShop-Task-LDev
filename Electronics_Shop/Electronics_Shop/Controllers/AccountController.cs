@@ -10,6 +10,7 @@ namespace Electronics_Shop.Controllers
 {
     public class AccountController : Controller
     {
+        //values from app settings
         private readonly ConfigrationSettings _config;
 
         public AccountController(ConfigrationSettings config)
@@ -53,15 +54,15 @@ namespace Electronics_Shop.Controllers
 
                 if (userOK)
                 {
-
+                    //save role as a claim for later authorization
                     var claims = new List<Claim> {
                             new Claim(ClaimTypes.Name, model.UserName),
                             new Claim(ClaimTypes.Role, adminAccount?"Admin":"Customer"),
-                            //new Claim("Status", user.Status)
                         };
 
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
+                    //cookie authentication
                     await HttpContext.SignInAsync(
                                            CookieAuthenticationDefaults.AuthenticationScheme,
                                            new ClaimsPrincipal(claimsIdentity),
@@ -83,7 +84,14 @@ namespace Electronics_Shop.Controllers
             return View(model);
         }
 
-        private bool AuthenticateUser(string login, string password, out bool adminRole)
+        /// <summary>
+        /// Authenticate 
+        /// </summary>
+        /// <param name="login">Username</param>
+        /// <param name="password">Password text</param>
+        /// <param name="adminRole">If the user of type admin</param>
+        /// <returns></returns>
+        public bool AuthenticateUser(string login, string password, out bool adminRole)
         {
             adminRole = false;
 

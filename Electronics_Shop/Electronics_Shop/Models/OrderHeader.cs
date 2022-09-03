@@ -10,7 +10,7 @@ namespace Electronics_Shop.Models
         [Required]
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Contact Phone")]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid phone number")]
+        [RegularExpression(@"^\(?([0-9]{4})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid phone number - Enter 11 digit")]
         public string ContactPhone { get; set; }
 
         [Required]

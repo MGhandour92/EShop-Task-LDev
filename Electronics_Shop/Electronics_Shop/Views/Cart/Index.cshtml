@@ -55,9 +55,6 @@
                             Disount if doubled
                         </th>
                         <th>
-                            Category
-                        </th>
-                        <th>
                             Quantity
                         </th>
                         <th>
@@ -76,7 +73,7 @@
                             <td>@Model.OrderLines[i].Product.Name</td>
                             <td>@Model.OrderLines[i].Product.Description</td>
                             <td>@Model.OrderLines[i].Product.UnitPrice</td>
-                            <td>@Model.OrderLines[i].Product.DisountToApply</td>
+                            <td>@Model.OrderLines[i].Product.DisountToApply %</td>
                             <td>@Model.OrderLines[i].Quantity</td>
                             <td>@(Model.OrderLines[i].Product.UnitPrice * Model.OrderLines[i].Quantity)</td>
                             <td>@Model.OrderLines[i].AfterDiscountPrice</td>

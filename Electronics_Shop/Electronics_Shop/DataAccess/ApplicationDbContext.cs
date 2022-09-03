@@ -11,6 +11,7 @@ namespace Electronics_Shop.Data
         {
         }
 
+        //seeding data for demo purpose
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Category>().HasData(

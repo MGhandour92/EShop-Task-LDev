@@ -2,31 +2,29 @@
 
 @{
     ViewData["Title"] = "Order Summary";
-    string url = ViewContext.HttpContext.Request.Path;
 }
 
 <link href="~/css/trackingorder.css" rel="stylesheet" />
 
 <!-- Tracking View Sample from: https://codepen.io/nandhukumar/pen/pMwdxY -->
 
-<div class="container">
-    <div class="row">
-        <div class="col-12 col-md-10 hh-grayBox pt45 pb20">
-            <h2>You Have Placed an Order Successfully with Number (@Model.Id)</h2>
-            <h3>Save this link for tracking your Order: @url</h3>
-            <div class="row justify-content-between">
-                <div class="order-tracking completed">
-                    <span class="is-complete"></span>
-                    <p>Ordered<br><span>@DateTime.Today.ToString("dd-MMM-yy")</span></p>
-                </div>
-                <div class="order-tracking">
-                    <span class="is-complete"></span>
-                    <p>Shipped<br><span>@DateTime.Today.AddDays(2).ToString("dd-MMM-yy")</span></p>
-                </div>
-                <div class="order-tracking">
-                    <span class="is-complete"></span>
-                    <p>Delivered<br><span>@DateTime.Today.AddDays(3).ToString("dd-MMM-yy")</span></p>
-                </div>
+<div class="row">
+    <div class="col-12 hh-grayBox text-center">
+        <h2>You Have Placed an Order Successfully with Number (@Model.Id)</h2>
+        <h3>Bookmark this page for later tracking</h3>
+        <br />
+        <div class="row justify-content-between">
+            <div class="order-tracking completed">
+                <span class="is-complete"></span>
+                <p>Ordered<br><span>@DateTime.Today.ToString("dd-MMM-yy")</span></p>
+            </div>
+            <div class="order-tracking">
+                <span class="is-complete"></span>
+                <p>Shipped<br><span>@DateTime.Today.AddDays(2).ToString("dd-MMM-yy")</span></p>
+            </div>
+            <div class="order-tracking">
+                <span class="is-complete"></span>
+                <p>Delivered<br><span>@DateTime.Today.AddDays(3).ToString("dd-MMM-yy")</span></p>
             </div>
         </div>
     </div>
@@ -90,7 +88,7 @@
                         <td>@item.Product.Name</td>
                         <td>@item.Product.Description</td>
                         <td>@item.Product.UnitPrice</td>
-                        <td>@item.Product.DisountToApply</td>
+                        <td>@item.Product.DisountToApply %</td>
                         <td>@item.Quantity</td>
                         <td>@(item.Product.UnitPrice * item.Quantity)</td>
                         <td>@item.AfterDiscountPrice</td>
