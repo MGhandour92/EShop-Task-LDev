@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Electronics_Shop.Models
 {
@@ -10,6 +11,8 @@ namespace Electronics_Shop.Models
         [Required]
         public int Quantity { get; set; }
 
+        [Required]
+        [Precision(18, 2)] 
         public decimal AfterDiscountPrice { get; set; }
 
 

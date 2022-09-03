@@ -1,19 +1,19 @@
-﻿@model OrderViewModel
+﻿@model OrderHeader
 
 @{
     ViewData["Title"] = "Order Summary";
+    string url = ViewContext.HttpContext.Request.Path;
 }
 
 <link href="~/css/trackingorder.css" rel="stylesheet" />
-
-<h1>You Have Placed an Order Successfully with Number (@Model.OrderHeader.Id)</h1>
-<h2>Save this link for tracking your Order</h2>
 
 <!-- Tracking View Sample from: https://codepen.io/nandhukumar/pen/pMwdxY -->
 
 <div class="container">
     <div class="row">
         <div class="col-12 col-md-10 hh-grayBox pt45 pb20">
+            <h2>You Have Placed an Order Successfully with Number (@Model.Id)</h2>
+            <h3>Save this link for tracking your Order: @url</h3>
             <div class="row justify-content-between">
                 <div class="order-tracking completed">
                     <span class="is-complete"></span>
@@ -40,16 +40,16 @@
     <div class="col-md-12">
         <dl class="row">
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.OrderHeader.ContactPhone)
+                @Html.DisplayNameFor(model => model.ContactPhone)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.OrderHeader.ContactPhone)
+                @Html.DisplayFor(model => model.ContactPhone)
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.OrderHeader.DeliverToAddress)
+                @Html.DisplayNameFor(model => model.DeliverToAddress)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.OrderHeader.DeliverToAddress)
+                @Html.DisplayFor(model => model.DeliverToAddress)
             </dd>
         </dl>
     </div>
@@ -73,9 +73,6 @@
                         Disount To Apply
                     </th>
                     <th>
-                        Category
-                    </th>
-                    <th>
                         Quantity
                     </th>
                     <th>
@@ -84,7 +81,6 @@
                     <th>
                         After Disount Total
                     </th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -98,7 +94,6 @@
                         <td>@item.Quantity</td>
                         <td>@(item.Product.UnitPrice * item.Quantity)</td>
                         <td>@item.AfterDiscountPrice</td>
-                        <td><a asp-controller="cart" asp-action="remove" asp-route-id="@item.Product.Id">Remove</a></td>
                     </tr>
                 }
                 <tr>

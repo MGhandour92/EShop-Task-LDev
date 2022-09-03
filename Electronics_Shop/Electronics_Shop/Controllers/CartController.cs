@@ -29,12 +29,12 @@ namespace Electronics_Shop.Controllers
             ViewBag.total = cart.Sum(item => item.Product.UnitPrice * item.Quantity);
             ViewBag.totalwdiscount = cart.Sum(line => line.AfterDiscountPrice);
 
-            var ovm = new OrderViewModel()
+            var oh = new OrderHeader()
             {
                 OrderLines = cart
             };
 
-            return View(ovm);
+            return View(oh);
         }
 
         // AddToCart

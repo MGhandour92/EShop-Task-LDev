@@ -2,8 +2,12 @@
 using Electronics_Shop.Helpers;
 using Electronics_Shop.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
+using System.Reflection.Metadata;
+using System.Security.Cryptography;
 using X.PagedList;
 
 namespace Electronics_Shop.Controllers
@@ -12,7 +16,7 @@ namespace Electronics_Shop.Controllers
     {
         //TODO: 
         //apply discount on the cart page  
-        Place Order (Save order) 
+        //Place Order (Save order) 
 
         private readonly ApplicationDbContext _context;
 
@@ -21,21 +25,21 @@ namespace Electronics_Shop.Controllers
             _context = context;
         }
 
-        //Products
-        private IQueryable<Product> GetProducts(int catId) =>
-    catId == 0
-        ? _context.Product.Include(p => p.Category)
-        : _context.Product.Include(p => p.Category).Where(c => c.CategoryId == catId);
-
         // GET: Products
-        public async Task<IActionResult> Index(int? page)
+        public async Task<IActionResult> Index(int? page, int? categoryId)
         {
-            var products = GetProducts(0);
+            //for the first call
+            categoryId = !categoryId.HasValue ? 0 : categoryId;
+
+            var products = categoryId == 0
+                ? _context.Product.Include(p => p.Category)
+                : _context.Product.Include(p => p.Category).Where(c => c.CategoryId == categoryId);
 
             var CatList = _context.Category.Select(item => new SelectListItem(item.Name, item.Id.ToString())).ToList();
             CatList.Insert(0, new SelectListItem("All", "0"));
-            ViewBag.CategoryList = CatList;
+            CatList.FirstOrDefault(v => v.Value == categoryId.ToString()).Selected = true;
 
+            ViewBag.CategoryList = CatList;
 
             int pageSize = 5;
             int pageNumber = (page ?? 1);
@@ -44,51 +48,42 @@ namespace Electronics_Shop.Controllers
 
             return View(pagedProducts.ToPagedList(pageNumber, pageSize));
         }
-
-        // POST: Products
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(int? page, string categoryId)
-        {
-            var products = GetProducts(Convert.ToInt16(categoryId));
-
-            var CatList = _context.Category.Select(item => new SelectListItem(item.Name, item.Id.ToString())).ToList();
-            CatList.Insert(0, new SelectListItem("All", "0"));
-            CatList.FirstOrDefault(v => v.Value == categoryId).Selected = true;
-            ViewBag.CategoryList = CatList;
-
-            var pagedProducts = await products.ToListAsync();
-
-            int pageSize = 5;
-            int pageNumber = (page ?? 1);
-
-            return View(pagedProducts.ToPagedList(pageNumber, pageSize));
-        }
+        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PlaceOrder(OrderViewModel order)
+        public async Task<IActionResult> PlaceOrder(OrderHeader order)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(order.OrderHeader);
+                _context.Add(order);
                 await _context.SaveChangesAsync();
 
                 foreach (var item in order.OrderLines)
                 {
                     //inserted ID
-                    item.OrderHeaderId = order.OrderHeader.Id;
+                    item.OrderHeaderId = order.Id;
+                    //clear id before autoincrement
+                    item.Id = 0;
+                    _context.Add(item);
                 }
 
-                _context.Add(order.OrderLines);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction(nameof(OrderSummary));
+                return RedirectToAction(nameof(OrderSummary), new { orderID = order.Id } );
             }
             return RedirectToAction("Index", "Cart");
         }
 
         // GET: order
-        public IActionResult OrderSummary(OrderViewModel order) => View(order);
+        public async Task<IActionResult> OrderSummary(int orderID)
+        {
+            var order = await _context.OrderHeader
+                                .Include(p => p.OrderLines)
+                                .ThenInclude(x=>x.Product)
+                                .FirstOrDefaultAsync(m => m.Id == orderID);
+
+            return order == null ? NotFound() : View(order);
+        }
     }
 }

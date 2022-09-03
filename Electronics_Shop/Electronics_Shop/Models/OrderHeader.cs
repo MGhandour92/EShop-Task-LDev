@@ -9,8 +9,9 @@ namespace Electronics_Shop.Models
 
         [Required]
         [DataType(DataType.PhoneNumber)]
-        [Display(Name = "Contact Phone")] 
-        public int ContactPhone { get; set; }
+        [Display(Name = "Contact Phone")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid phone number")]
+        public string ContactPhone { get; set; }
 
         [Required]
         //nvarchar
@@ -21,6 +22,6 @@ namespace Electronics_Shop.Models
 
 
         //Relationships
-        public ICollection<OrderLine> OrderLines { get; set; }
+        public List<OrderLine> OrderLines { get; set; }
     }
 }

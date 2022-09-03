@@ -1,4 +1,4 @@
-﻿@model OrderViewModel
+﻿@model OrderHeader
 
 @{
     ViewData["Title"] = "Index";
@@ -12,14 +12,14 @@
         <div class="col-md-12">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="OrderHeader.ContactPhone" class="control-label"></label>
-                <input asp-for="OrderHeader.ContactPhone" class="form-control" />
-                <span asp-validation-for="OrderHeader.ContactPhone" class="text-danger"></span>
+                <label asp-for="ContactPhone" class="control-label"></label>
+                <input asp-for="ContactPhone" class="form-control" />
+                <span asp-validation-for="ContactPhone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="OrderHeader.DeliverToAddress" class="control-label"></label>
-                <textarea asp-for="OrderHeader.DeliverToAddress" class="form-control"></textarea>
-                <span asp-validation-for="OrderHeader.DeliverToAddress" class="text-danger"></span>
+                <label asp-for="DeliverToAddress" class="control-label"></label>
+                <textarea asp-for="DeliverToAddress" class="form-control"></textarea>
+                <span asp-validation-for="DeliverToAddress" class="text-danger"></span>
             </div>
         </div>
     </div>
@@ -52,7 +52,7 @@
                             Unit Price
                         </th>
                         <th>
-                            Disount To Apply
+                            Disount if doubled
                         </th>
                         <th>
                             Category
@@ -70,17 +70,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.OrderLines)
+                    @for (int i = 0; i < Model.OrderLines.Count; i++)
                     {
                         <tr>
-                            <td>@item.Product.Name</td>
-                            <td>@item.Product.Description</td>
-                            <td>@item.Product.UnitPrice</td>
-                            <td>@item.Product.DisountToApply</td>
-                            <td>@item.Quantity</td>
-                            <td>@(item.Product.UnitPrice * item.Quantity)</td>
-                            <td>@item.AfterDiscountPrice</td>
-                            <td><a asp-controller="cart" asp-action="remove" asp-route-id="@item.Product.Id">Remove</a></td>
+                            <td>@Model.OrderLines[i].Product.Name</td>
+                            <td>@Model.OrderLines[i].Product.Description</td>
+                            <td>@Model.OrderLines[i].Product.UnitPrice</td>
+                            <td>@Model.OrderLines[i].Product.DisountToApply</td>
+                            <td>@Model.OrderLines[i].Quantity</td>
+                            <td>@(Model.OrderLines[i].Product.UnitPrice * Model.OrderLines[i].Quantity)</td>
+                            <td>@Model.OrderLines[i].AfterDiscountPrice</td>
+                            <td>
+                                <a asp-controller="cart" asp-action="remove" asp-route-id="@Model.OrderLines[i].Product.Id">Remove</a>
+
+                                @{
+                                    Model.OrderLines[i].ProductId = Model.OrderLines[i].Product.Id;
+                                }
+
+                                @Html.HiddenFor(modelItem => Model.OrderLines[i].ProductId)
+                                @Html.HiddenFor(modelItem => Model.OrderLines[i].Quantity)
+                                @Html.HiddenFor(modelItem => Model.OrderLines[i].AfterDiscountPrice)
+                            </td>
                         </tr>
                     }
                     <tr>

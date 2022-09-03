@@ -5,23 +5,18 @@
 
 @{
     ViewData["Title"] = "Index";
+    var CatList = (List<SelectListItem>)ViewBag.CategoryList;
 }
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-
-<form asp-action="Index">
+<form>
     <div class="row">
         <div class="col-md-9">
-            @*            <select id="categoryId" name="Categories" asp-items="(IEnumerable<SelectListItem>)ViewBag.CategoryList">
-            </select>*@
-            @Html.DropDownList("categoryId", (IEnumerable<SelectListItem>)ViewBag.CategoryList, new { @class="form-control" })
+            @Html.DropDownList("categoryId", CatList, new { @class="form-control" })
         </div>
         <div class="col-md-3">
-            <input type="submit" value="Filter" class="btn btn-info" />
+            <input type="submit" asp-controller="Shopping" asp-action="Index" value="Filter" class="btn btn-info" />
         </div>
     </div>
 </form>
@@ -41,7 +36,7 @@
                         Unit Price
                     </th>
                     <th>
-                        Disount To Apply
+                        Disount if doubled
                     </th>
                     <th>
                         Category
@@ -74,17 +69,16 @@
                         <td colspan="2">
                             <form>
                                 <div class="row">
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-5">
                                         <input type="number" value="1" name="qtyToAdd" class="form-control" required />
                                         <input type="hidden" value="@item.Id" name="ProdId" />
                                     </div>
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-7">
                                         <button class="btn-sucess" type="submit" asp-controller="Cart" asp-action="AddToCart">Add To Cart</button>
                                     </div>
                                 </div>
                             </form>
                         </td>
-
                     </tr>
                 }
             </tbody>
@@ -93,8 +87,22 @@
 </div>
 
 <br />
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
+
+@*    @Html.Hidden("categoryId_HF")*@
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page = page, categoryId =  CatList.FirstOrDefault(x=>x.Selected).Value}),
     new X.PagedList.Web.Common.PagedListRenderOptions {
     LiElementClasses = new string[] { "page-item" },
     PageClasses = new string[] { "page-link" }
     })
+
+
+@*@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $("#categoryId").on("change", function {
+                $("#categoryId_HF").val($(this).text());
+            });
+        });
+    </script>
+    }*@

@@ -5,23 +5,18 @@
 
 @{
     ViewData["Title"] = "Index";
+    var CatList = (List<SelectListItem>)ViewBag.CategoryList;
 }
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-
-<form asp-action="Index">
+<form>
     <div class="row">
         <div class="col-md-9">
-            @*            <select id="categoryId" name="Categories" asp-items="(IEnumerable<SelectListItem>)ViewBag.CategoryList">
-            </select>*@
-            @Html.DropDownList("categoryId", (IEnumerable<SelectListItem>)ViewBag.CategoryList, new { @class="form-control" })
+            @Html.DropDownList("categoryId", CatList, new { @class="form-control" })
         </div>
         <div class="col-md-3">
-            <input type="submit" value="Filter" class="btn btn-info" />
+            <input type="submit" asp-controller="Products" asp-action="Index" value="Filter" class="btn btn-info" />
         </div>
     </div>
 </form>
@@ -38,10 +33,10 @@
                         Description
                     </th>
                     <th>
-                        UnitPrice
+                        Unit Price
                     </th>
                     <th>
-                        Disount To Apply
+                        Disount if doubled
                     </th>
                     <th>
                         Category
@@ -68,11 +63,11 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Category.Name)
                         </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </td>
+                            <td>
+                                <a asp-controller="Products" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                <a asp-controller="Products" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>                        
                     </tr>
                 }
             </tbody>
@@ -81,8 +76,8 @@
 </div>
 
 <br />
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page = page, categoryId =  CatList.FirstOrDefault(x=>x.Selected).Value}),
     new X.PagedList.Web.Common.PagedListRenderOptions {
-        LiElementClasses = new string[] { "page-item" },
-        PageClasses = new string[] { "page-link" }
-})
+    LiElementClasses = new string[] { "page-item" },
+    PageClasses = new string[] { "page-link" }
+    })
