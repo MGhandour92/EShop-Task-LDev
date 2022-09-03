@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "4DVdTpXUuvNSxgXDVPR1tmCBWmv9KXrMVE7wcXDYQiU=",
+  "Hash": "Na6ETC4YafsQGN5VpCXtIU/lmzqS+mJifh8Ik7vMd3c=",
   "Source": "Electronics_Shop",
   "BasePath": "_content/Electronics_Shop",
   "Mode": "Default",
@@ -66,6 +66,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
+    },
+    {
+      "Identity": "F:\\GIT\\Others\\EShop-Task-LDev\\Electronics_Shop\\Electronics_Shop\\wwwroot\\css\\TrackingOrder.css",
+      "SourceId": "Electronics_Shop",
+      "SourceType": "Discovered",
+      "ContentRoot": "F:\\GIT\\Others\\EShop-Task-LDev\\Electronics_Shop\\Electronics_Shop\\wwwroot\\",
+      "BasePath": "_content/Electronics_Shop",
+      "RelativePath": "css/TrackingOrder.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\TrackingOrder.css"
     },
     {
       "Identity": "F:\\GIT\\Others\\EShop-Task-LDev\\Electronics_Shop\\Electronics_Shop\\wwwroot\\favicon.ico",

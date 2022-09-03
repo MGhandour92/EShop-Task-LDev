@@ -3,9 +3,40 @@
 @{
     ViewData["Title"] = "Index";
 }
-<form asp-controller="Shopping" asp-action="PlaceOrder">
+<form method="post" asp-controller="Shopping" asp-action="PlaceOrder">
 
     <h1>Cart Page</h1>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="OrderHeader.ContactPhone" class="control-label"></label>
+                <input asp-for="OrderHeader.ContactPhone" class="form-control" />
+                <span asp-validation-for="OrderHeader.ContactPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderHeader.DeliverToAddress" class="control-label"></label>
+                <textarea asp-for="OrderHeader.DeliverToAddress" class="form-control"></textarea>
+                <span asp-validation-for="OrderHeader.DeliverToAddress" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-6">
+            <a class="btn btn-warning" asp-controller="Shopping" asp-action="index">Continue Shopping</a>
+        </div>
+
+        <div class="col-md-6">
+            <div class="text-right">
+                <input type="submit" value="Place Order" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+    <br />
+    <hr />
     <div class="row">
         <div class="col-md-12">
             <table class="table" cellpadding="2" cellspacing="2" border="1">
@@ -32,6 +63,9 @@
                         <th>
                             Sub Total
                         </th>
+                        <th>
+                            After Disount Total
+                        </th>
                         <th></th>
                     </tr>
                 </thead>
@@ -45,42 +79,24 @@
                             <td>@item.Product.DisountToApply</td>
                             <td>@item.Quantity</td>
                             <td>@(item.Product.UnitPrice * item.Quantity)</td>
+                            <td>@item.AfterDiscountPrice</td>
                             <td><a asp-controller="cart" asp-action="remove" asp-route-id="@item.Product.Id">Remove</a></td>
                         </tr>
                     }
                     <tr>
-                        <td align="right" colspan="6">Sum</td>
+                        <td align="right" colspan="6">Total</td>
                         <td>
                             @ViewBag.total
                         </td>
                     </tr>
+                    <tr>
+                        <td align="right" colspan="6">Total after Discount</td>
+                        <td>
+                            @ViewBag.totalwdiscount
+                        </td>
+                    </tr>
                 </tbody>
             </table>
-        </div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-md-12">
-            <a class="btn-warning" asp-controller="Shopping" asp-action="index">Continue Shopping</a>
-        </div>
-
-    </div>
-    <div class="row">
-        <div class="col-md-8">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="OrderHeader.ContactPhone" class="control-label"></label>
-                <input asp-for="OrderHeader.ContactPhone" class="form-control" />
-                <span asp-validation-for="OrderHeader.ContactPhone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrderHeader.DeliverToAddress" class="control-label"></label>
-                <textarea asp-for="OrderHeader.DeliverToAddress" class="form-control"></textarea>
-                <span asp-validation-for="OrderHeader.DeliverToAddress" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <input type="submit" value="Place Order" class="btn btn-success" />
         </div>
     </div>
 </form>

@@ -10,6 +10,7 @@ namespace Electronics_Shop.Models
         [Required]
         public int Quantity { get; set; }
 
+        public decimal AfterDiscountPrice { get; set; }
 
 
         //Relationships

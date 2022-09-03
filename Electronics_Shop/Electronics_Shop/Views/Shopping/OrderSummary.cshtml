@@ -81,6 +81,9 @@
                     <th>
                         Sub Total
                     </th>
+                    <th>
+                        After Disount Total
+                    </th>
                     <th></th>
                 </tr>
             </thead>
@@ -94,6 +97,7 @@
                         <td>@item.Product.DisountToApply</td>
                         <td>@item.Quantity</td>
                         <td>@(item.Product.UnitPrice * item.Quantity)</td>
+                        <td>@item.AfterDiscountPrice</td>
                         <td><a asp-controller="cart" asp-action="remove" asp-route-id="@item.Product.Id">Remove</a></td>
                     </tr>
                 }
@@ -101,6 +105,12 @@
                     <td align="right" colspan="6">Sum</td>
                     <td>
                         @ViewBag.total
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" colspan="6">Total after Discount</td>
+                    <td>
+                        @ViewBag.totalwdiscount
                     </td>
                 </tr>
             </tbody>

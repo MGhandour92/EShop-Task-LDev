@@ -11,8 +11,8 @@ namespace Electronics_Shop.Controllers
     public class ShoppingController : Controller
     {
         //TODO: 
-        //apply discount on the cart page 
-        //Place Order (Save order) -Done
+        //apply discount on the cart page  
+        Place Order (Save order) 
 
         private readonly ApplicationDbContext _context;
 
@@ -85,7 +85,7 @@ namespace Electronics_Shop.Controllers
 
                 return RedirectToAction(nameof(OrderSummary));
             }
-            return RedirectToAction("Index", "CartController");
+            return RedirectToAction("Index", "Cart");
         }
 
         // GET: order

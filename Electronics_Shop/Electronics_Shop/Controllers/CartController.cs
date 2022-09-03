@@ -18,13 +18,22 @@ namespace Electronics_Shop.Controllers
         public IActionResult Index()
         {
             var cart = SessionHelper.GetObjectFromJson<List<OrderLine>>(HttpContext.Session, "cart");
+
+            //calcualte discount
+            //for each line apply two piece discount
+            cart.ForEach(dis => dis.AfterDiscountPrice = 
+            DiscountHandler.TwoPieceDisount(dis.Product.UnitPrice, dis.Quantity, dis.Product.DisountToApply));
+
             //ViewBag.cart = cart;
+            //calculate total after discount
             ViewBag.total = cart.Sum(item => item.Product.UnitPrice * item.Quantity);
+            ViewBag.totalwdiscount = cart.Sum(line => line.AfterDiscountPrice);
 
             var ovm = new OrderViewModel()
             {
                 OrderLines = cart
             };
+
             return View(ovm);
         }
 
@@ -42,7 +51,7 @@ namespace Electronics_Shop.Controllers
             else
             {
                 List<OrderLine> cart = SessionHelper.GetObjectFromJson<List<OrderLine>>(HttpContext.Session, "cart");
-                int index = isExist(ProdId.ToString());
+                int index = isExist(ProdId);
                 if (index != -1)
                 {
                     cart[index].Quantity += Convert.ToInt32(qtyToAdd);
@@ -57,7 +66,7 @@ namespace Electronics_Shop.Controllers
         }
 
 
-        public IActionResult Remove(string id)
+        public IActionResult Remove(int id)
         {
             List<OrderLine> cart = SessionHelper.GetObjectFromJson<List<OrderLine>>(HttpContext.Session, "cart");
             int index = isExist(id);
@@ -69,7 +78,7 @@ namespace Electronics_Shop.Controllers
 
 
         //If product already added
-        private int isExist(string id)
+        private int isExist(int id)
         {
             List<OrderLine> cart = SessionHelper.GetObjectFromJson<List<OrderLine>>(HttpContext.Session, "cart");
             for (int i = 0; i < cart.Count; i++)
