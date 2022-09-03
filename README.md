@@ -68,15 +68,15 @@ You Can:
 <!-- GETTING STARTED -->
 ## Getting Started
 
-Lets start with diagrams
+You may check the word document (Requirements.docx) for more information
 
 ### Database
 
 ![DB Diagram][db-diagram]
 
-We have the Category table that contains 3 main categories (TVs, Laptops and Sound Systems). The products are categorized by a one-to-many relationship between Category and Product tables.
+We have the Category table that contains 3 main categories (**TVs, Laptops and Sound Systems**). The products are categorized by a one-to-many relationship between Category and Product tables.
 
-The Product table has the information and price for each product, also the discount that will be applied (if the customer bought doubles of the same product).
+The Product table has the information and price for each product, also the discount that will be applied (*if the customer bought doubles of the same product*).
 
 And finally we have the Order header and lines tables, that refelcts the order placed by the customer with summing the quantities and total price for the order.
 
@@ -94,7 +94,7 @@ And finally we have the Order header and lines tables, that refelcts the order p
 
 ![Process Flow][flow-process]
 
-4. Discount Formula >> Amount to be cut from the total = (Item Qty X Item Unit Price X Discount %)
+4. Discount Formula >> **Amount to be cut from the total = (Item Qty X Item Unit Price X Discount %)**
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
