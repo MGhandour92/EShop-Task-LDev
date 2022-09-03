@@ -11,13 +11,13 @@
 <br />
 <div align="center">
   <h1 align="center">Electronics Shop Sample Project</h3>
-  <h2 align="center">A project is a sample for an Electronics online shop for selling multiple electronic products</h2>
+  <h3 align="center">A project is a sample for an Electronics online shop for selling multiple electronic products</h3>
 </div>
 
 
 <!-- TABLE OF CONTENTS -->
 <details>
-  <summary>Table of Contents</summary>
+  <summary>**Table of Contents**</summary>
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
@@ -32,6 +32,9 @@
         <li><a href="#system-flow">System Flow</a></li>
       </ul>
     </li>
+	<li>
+      <a href="#contact">Contact</a>
+	 </li>
   </ol>
 </details>
 
@@ -65,7 +68,7 @@ You Can:
 <!-- GETTING STARTED -->
 ## Getting Started
 
-You may check the word document (Requirements.docx) for more information
+You may check the word document (*Requirements.docx*) for more information
 
 ### Database
 
